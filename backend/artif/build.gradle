@@ -18,12 +18,14 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.hibernate.orm:hibernate-community-dialects:6.5.2.Final' // Use exact version
-	implementation 'org.xerial:sqlite-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.5.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.5.0'
+	implementation 'org.hibernate.orm:hibernate-community-dialects:7.0.2.Final'
+	implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+	implementation 'org.xerial:sqlite-jdbc:3.50.1.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 
 }
 
