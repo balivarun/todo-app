@@ -1,0 +1,8 @@
+spring.application.name=artif
+
+# Server port configuration
+server.port=${PORT:8081}
+
+# MongoDB Atlas connection URI
+spring.data.mongodb.uri=${MONGODB_URI:mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0}
+spring.data.mongodb.database=${MONGODB_DATABASE:usersdb}
