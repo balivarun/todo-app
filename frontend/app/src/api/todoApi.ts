@@ -19,7 +19,7 @@ export interface UpdateTodoRequest {
 }
 
 const BASE_URL = process.env.NODE_ENV === 'production' 
-  ? `${process.env.VITE_API_URL || 'https://your-backend-url.com'}/api/todos`
+  ? `${process.env.VITE_API_URL || 'https://todo-app-production-f9b6.up.railway.app'}/api/todos`
   : 'http://localhost:8081/api/todos'
 
 export const fetchTodos = async (): Promise<Todo[]> => {
