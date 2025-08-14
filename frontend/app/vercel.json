@@ -9,7 +9,9 @@
       "destination": "/index.html"
     }
   ],
-  "env": {
-    "VITE_API_URL": "https://todo-app-production-f9b6.up.railway.app"
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://todo-app-production-f9b6.up.railway.app"
+    }
   }
 }
