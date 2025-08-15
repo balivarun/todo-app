@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { fetchTodos, createTodo, updateTodo, deleteTodo as apiDeleteTodo, type Todo } from './api/todoApi'
 
-
 function App() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [inputValue, setInputValue] = useState('')
@@ -13,6 +12,19 @@ function App() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editValue, setEditValue] = useState('')
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium')
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
+  }, [isDarkMode])
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+  }
 
   useEffect(() => {
     const loadTodos = async () => {
@@ -192,6 +204,13 @@ function App() {
 
   return (
     <div className="todo-app">
+      <button 
+        className="theme-toggle" 
+        onClick={toggleTheme}
+        title={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+      >
+        {isDarkMode ? '☀️' : '🌙'}
+      </button>
       <h1>Todo</h1>
 
       {error && (
