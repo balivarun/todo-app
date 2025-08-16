@@ -40,7 +40,7 @@
     --input-background: #1e293b;
     --button-background: #1e293b;
     --stats-background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(192, 38, 211, 0.1) 100%);
-    --completed-background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    --completed-background: linear-gradient(135deg, rgba(30, 41, 59, 0.3) 0%, rgba(51, 65, 85, 0.3) 100%);
   }
 
   body {
@@ -526,7 +526,8 @@
 
   .todo-item.completed .todo-text {
     text-decoration: line-through;
-    color: var(--text-muted);
+    color: var(--text-color) !important;
+    opacity: 0.8;
   }
 
   .todo-text:hover {
