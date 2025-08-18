@@ -127,7 +127,3 @@ The backend provides RESTful endpoints for todo management:
 3. Make your changes
 4. Run tests and linting
 5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
