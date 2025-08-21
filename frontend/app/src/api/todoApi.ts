@@ -22,9 +22,22 @@ const BASE_URL = import.meta.env.MODE === 'production'
   ? `${import.meta.env.VITE_API_URL || 'https://todo-app-production-f9b6.up.railway.app'}/api/todos`
   : 'http://localhost:8081/api/todos'
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('authToken')
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  }
+}
+
 export const fetchTodos = async (): Promise<Todo[]> => {
-  const response = await fetch(BASE_URL)
+  const response = await fetch(BASE_URL, {
+    headers: getAuthHeaders()
+  })
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Please log in to access your todos')
+    }
     throw new Error('Failed to fetch todos')
   }
   const data = await response.json()
@@ -39,12 +52,13 @@ export const fetchTodos = async (): Promise<Todo[]> => {
 export const createTodo = async (todo: CreateTodoRequest): Promise<Todo> => {
   const response = await fetch(BASE_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(todo),
   })
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Please log in to create todos')
+    }
     throw new Error('Failed to create todo')
   }
   const data = await response.json()
@@ -59,12 +73,13 @@ export const createTodo = async (todo: CreateTodoRequest): Promise<Todo> => {
 export const updateTodo = async (id: string, updates: UpdateTodoRequest): Promise<Todo> => {
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(updates),
   })
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Please log in to update todos')
+    }
     throw new Error('Failed to update todo')
   }
   const data = await response.json()
@@ -79,8 +94,12 @@ export const updateTodo = async (id: string, updates: UpdateTodoRequest): Promis
 export const deleteTodo = async (id: string): Promise<void> => {
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: 'DELETE',
+    headers: getAuthHeaders()
   })
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Please log in to delete todos')
+    }
     throw new Error('Failed to delete todo')
   }
 }

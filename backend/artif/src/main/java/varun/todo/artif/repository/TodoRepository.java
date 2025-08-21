@@ -4,9 +4,10 @@ import varun.todo.artif.model.Todo;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+
 @Repository
 public interface TodoRepository extends MongoRepository<Todo, String> {
-//    public interface TodoRepository extends CrudRepository<Todo, Long> {
-    // save ,findById findAll, delete are the inbuild function in CrudRepository
-
+    List<Todo> findByUserId(String userId);
+    List<Todo> findByUserIdAndCompleted(String userId, Boolean completed);
 }

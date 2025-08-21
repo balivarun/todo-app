@@ -23,12 +23,20 @@ public class TodoServiceImpl implements TodoServices {
         if (todo.getCompleted() == null) {
             todo.setCompleted(false);
         }
+        if (todo.getPriority() == null || todo.getPriority().trim().isEmpty()) {
+            todo.setPriority("medium");
+        }
         return todoRepository.save(todo);
     }
 
     @Override
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();
+    }
+
+    @Override
+    public List<Todo> getTodosByUserId(String userId) {
+        return todoRepository.findByUserId(userId);
     }
 
     @Override
@@ -41,8 +49,15 @@ public class TodoServiceImpl implements TodoServices {
         Optional<Todo> existingTodo = todoRepository.findById(id);
         if (existingTodo.isPresent()) {
             Todo updatedTodo = existingTodo.get();
-            updatedTodo.setTitle(todo.getTitle());
-            updatedTodo.setCompleted(todo.getCompleted());
+            if (todo.getTitle() != null) {
+                updatedTodo.setTitle(todo.getTitle());
+            }
+            if (todo.getCompleted() != null) {
+                updatedTodo.setCompleted(todo.getCompleted());
+            }
+            if (todo.getPriority() != null) {
+                updatedTodo.setPriority(todo.getPriority());
+            }
             updatedTodo.setUpdatedAt(new Date());
             return todoRepository.save(updatedTodo);
         }
@@ -70,5 +85,15 @@ public class TodoServiceImpl implements TodoServices {
         return todoRepository.findAll().stream()
                 .filter(todo -> todo.getCompleted() == null || !todo.getCompleted())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Todo> getCompletedTodosByUserId(String userId) {
+        return todoRepository.findByUserIdAndCompleted(userId, true);
+    }
+
+    @Override
+    public List<Todo> getPendingTodosByUserId(String userId) {
+        return todoRepository.findByUserIdAndCompleted(userId, false);
     }
 }

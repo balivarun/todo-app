@@ -24,6 +24,12 @@ public class Todo {
     @Field("updated_at")
     private Date updatedAt;
 
+    @Field("priority")
+    private String priority = "medium";
+
+    @Field("user_id")
+    private String userId;
+
     // Getters and Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -39,4 +45,10 @@ public class Todo {
 
     public Date getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getPriority() { return priority; }
+    public void setPriority(String priority) { this.priority = priority; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 }
