@@ -2,9 +2,9 @@
 FROM gradle:8.8-jdk17 AS build
 WORKDIR /app
 
-COPY build.gradle settings.gradle gradlew ./
-COPY gradle ./gradle
-COPY src ./src
+COPY backend/artif/build.gradle backend/artif/settings.gradle backend/artif/gradlew ./
+COPY backend/artif/gradle ./gradle
+COPY backend/artif/src ./src
 
 RUN ./gradlew build -x test
 

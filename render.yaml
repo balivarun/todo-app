@@ -3,7 +3,7 @@ services:
     name: todo-app-backend
     runtime: docker
     dockerfilePath: ./backend/artif/Dockerfile
-    dockerContext: ./backend/artif
+    dockerContext: .
     envVars:
       - key: MONGODB_URI
         sync: false
