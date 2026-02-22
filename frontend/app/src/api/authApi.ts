@@ -29,12 +29,14 @@ export const login = async (loginData: LoginRequest): Promise<AuthResponse> => {
   })
   
   if (!response.ok) {
+    let errorMessage = `Login failed: ${response.status} ${response.statusText}`
     try {
       const error = await response.json()
-      throw new Error(error.error || 'Login failed')
-    } catch (jsonError) {
-      throw new Error(`Login failed: ${response.status} ${response.statusText}`)
+      errorMessage = error.error || 'Login failed'
+    } catch {
+      // JSON parsing failed, keep the default message
     }
+    throw new Error(errorMessage)
   }
   
   try {
@@ -54,12 +56,14 @@ export const register = async (registerData: RegisterRequest): Promise<AuthRespo
   })
   
   if (!response.ok) {
+    let errorMessage = `Registration failed: ${response.status} ${response.statusText}`
     try {
       const error = await response.json()
-      throw new Error(error.error || 'Registration failed')
-    } catch (jsonError) {
-      throw new Error(`Registration failed: ${response.status} ${response.statusText}`)
+      errorMessage = error.error || 'Registration failed'
+    } catch {
+      // JSON parsing failed, keep the default message
     }
+    throw new Error(errorMessage)
   }
   
   try {

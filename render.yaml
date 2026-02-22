@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: todo-app-backend
+    runtime: docker
+    dockerfilePath: ./backend/artif/Dockerfile
+    dockerContext: ./backend/artif
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: PORT
+        value: 8080

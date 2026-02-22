@@ -1,5 +1,7 @@
 package varun.todo.artif.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +23,8 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
 public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -45,7 +49,8 @@ public class AuthController {
         final String jwt = jwtUtil.generateToken(userDetails);
 
         User user = userService.findByUsername(authRequest.getUsername())
-            .orElse(userService.findByEmail(authRequest.getUsername()).orElse(null));
+            .orElseGet(() -> userService.findByEmail(authRequest.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found after authentication")));
 
         return ResponseEntity.ok(new AuthResponse(jwt, user.getUsername(), user.getEmail()));
     }
@@ -71,6 +76,7 @@ public class AuthController {
 
             return ResponseEntity.ok(new AuthResponse(jwt, user.getUsername(), user.getEmail()));
         } catch (Exception e) {
+            log.error("Registration failed for user '{}': {}", registerRequest.getUsername(), e.getMessage());
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
